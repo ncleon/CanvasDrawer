@@ -29,7 +29,7 @@ public class SimpleConsoleDrawTest {
     }
     
     @Test
-	public void testCanvasC_20_4() throws Exception {
+	public void testCommandC_20_4() throws Exception {
     	
         StringBuffer expectedSB = new StringBuffer();
         expectedSB.append("----------------------"+LINE_SEPARATOR);
@@ -45,9 +45,32 @@ public class SimpleConsoleDrawTest {
 
         
 	}
+    @Test
+	public void testCommandC_MustBeIncludeX_Y() throws Exception {
+    	        
+       	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20");
+	      fail();
+		} catch (Exception e) {
+			
+			assertTrue(e.getMessage().contains("only allow 2 input integer Values."));
+		}
+       	
+       	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 A");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("must be integer."));
+		}
+
+        
+	}
+    
     
     @Test
-	public void testCanvasL_1_2_6_2() throws Exception {
+	public void testCommandL_1_2_6_2() throws Exception {
     	
         StringBuffer expectedSB = new StringBuffer();
         expectedSB.append("----------------------"+LINE_SEPARATOR);
@@ -66,7 +89,7 @@ public class SimpleConsoleDrawTest {
     //enter command: L 6 3 6 4
     
     @Test
-	public void testCanvasL_6_3_6_4() throws Exception {
+	public void testCommandL_6_3_6_4() throws Exception {
     	
         StringBuffer expectedSB = new StringBuffer();
         expectedSB.append("----------------------"+LINE_SEPARATOR);
@@ -84,10 +107,42 @@ public class SimpleConsoleDrawTest {
 
 	}
     
+    @Test
+ 	public void testCommandL_MustIncluded_X1_X2_Y1_Y2_Only() throws Exception {
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("L 1 2 6");
+	      fail();
+		} catch (Exception e) {
+			
+			assertTrue(e.getMessage().contains("Draw Line Command, only allow 4 input integer Values."));
+		}
+    	
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("L 1 2 6 A");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("must be integer."));
+		}
+    	
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("L 1 0 6 2");
+	      fail();
+		} catch (Exception e) {
+			
+			assertTrue(e.getMessage().contains("must more than 0"));
+		}
+    }
+    
     //R 14 1 18 3
     
     @Test
-	public void testCanvasR_14_1_18_3() throws Exception {
+	public void testCommandR_14_1_18_3() throws Exception {
     	
         StringBuffer expectedSB = new StringBuffer();
         expectedSB.append("----------------------"+LINE_SEPARATOR);
@@ -108,7 +163,38 @@ public class SimpleConsoleDrawTest {
 	}
     
     @Test
-	public void testCanvasB_10_3_o() throws Exception {
+ 	public void testCommandR_MustIncluded_X1_X2_Y1_Y2_Only() throws Exception {
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("R 14 1 18");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("Draw Rectangle Command, only allow 4 input integer Values. Example R 14 1 18 3"));
+		}
+    	
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("R 14 1 18 A");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("must be integer."));
+		}
+    	
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("R 14 0 18 3");
+	      fail();
+		} catch (Exception e) {
+			
+			assertTrue(e.getMessage().contains("must more than 0"));
+		}
+    }
+    
+    @Test
+	public void testCommandB_10_3_o() throws Exception {
     	
         StringBuffer expectedSB = new StringBuffer();
         expectedSB.append("----------------------"+LINE_SEPARATOR);
@@ -126,6 +212,43 @@ public class SimpleConsoleDrawTest {
         SimpleConsoleDrawer.enterCommand("B 10 3 o");
         SimpleConsoleDrawer.draw();
         assertEquals(expectedSB.toString(), outputCapture.toString());
+
+	}
+    
+    @Test
+	public void testCommandB_MustBeIncludeX_Y_ColourCode() throws Exception {
+    	
+    	
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("B A 4 o");
+	      fail();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			assertTrue(e.getMessage().contains("only allow (x, y) with colour c. x and y must be interger , c is single character, example: B 1 1 c"));
+		}
+        
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("B 2 B oo");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("only allow (x, y) with colour c. x and y must be interger , c is single character, example: B 1 1 c"));
+		}
+
+    	try 
+    	{
+		  SimpleConsoleDrawer.enterCommand("C 20 4");
+	      SimpleConsoleDrawer.enterCommand("B 2 4");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("Bucket fill Command, only allow 3 input Values"));
+		}
+    	
+    	
+ 
 
 	}
     
