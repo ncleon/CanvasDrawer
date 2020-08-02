@@ -40,6 +40,7 @@ public class CanvasDrawerTest {
 
 	        
 		}
+	  
 	    
 	    @Test
 		public void testDrawLine_1_2_6_2() throws Exception {

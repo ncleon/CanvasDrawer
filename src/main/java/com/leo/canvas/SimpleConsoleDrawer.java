@@ -23,18 +23,22 @@ public class SimpleConsoleDrawer {
          String command = input.nextLine();
          while (!CMD_QUIT.equals(command)) {
         	try {
+        		 if(CMD_HELP.equals(command)) {
+        			printHelp();
+        			continue;
+        		 }
 	          	 enterCommand(command);
 	          	 draw();
         	}
          	catch (Exception e) {
-         		System.err.println("Invalid command, exception occur: " +  e);
+         		System.err.println("Invalid command: " +  e.getMessage());
          	}
         	finally {
         		command = input.nextLine();
 			}
 	
          }
-         System.out.println("Bye Bye World!"); // Display the string.\
+         System.out.println("Thank you for using Leo's simple drawing diagram, See you again. "); // Display the string.\
          input.close();
 	} finally {
 		if(input!=null) {
@@ -48,10 +52,7 @@ public class SimpleConsoleDrawer {
 	public static void enterCommand(String command) {
 		String[] commandBreakDown = command.split(" ");
 		String mainCommand = commandBreakDown[0];
-		if(CMD_HELP.equals(mainCommand)) {
-			printHelp();
-			return;
-		}
+
  
 		List<String> validCommandList = new ArrayList<String>(Arrays.asList(CMD_CREATE_CANVAS,CMD_BUCKET_FILL,CMD_DRAW_LINE,CMD_DRAW_RECT,CMD_QUIT));
 		if (!validCommandList.contains(mainCommand)) {
@@ -181,6 +182,7 @@ public class SimpleConsoleDrawer {
 		System.out.print(canvasDrawer.getDrawing());
 		
 	}
-		
+
+
 }
 	

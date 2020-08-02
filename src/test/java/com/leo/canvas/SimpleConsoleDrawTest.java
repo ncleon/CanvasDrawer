@@ -1,6 +1,8 @@
 package com.leo.canvas;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,7 +14,7 @@ public class SimpleConsoleDrawTest {
     // Rule will run before every test case
     @Rule
     public OutputCaptureRule outputCapture = new OutputCaptureRule(); 
-	
+    
 	
     @Test
     public void simpleTestForOutputCapture() {
@@ -66,6 +68,35 @@ public class SimpleConsoleDrawTest {
 		}
 
         
+	}
+    
+    @Test
+	public void testCommandL_R_B_onlyAllowAfterCommandC() throws Exception {
+    	
+    	try 
+    	{
+	      SimpleConsoleDrawer.enterCommand("L 1 2 6 2");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("Canvas no found"));
+		}
+    	
+    	try 
+    	{
+            SimpleConsoleDrawer.enterCommand("R 14 1 18 3");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("Canvas no found"));
+		}
+    	
+    	try 
+    	{
+    		SimpleConsoleDrawer.enterCommand("B 10 3 o");
+	      fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().contains("Canvas no found"));
+		}
+
 	}
     
     
